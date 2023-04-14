@@ -8,6 +8,7 @@ use App\Models\User;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Http\Request;
 
 class RegisterController extends Controller
 {
@@ -69,5 +70,22 @@ class RegisterController extends Controller
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
         ]);
+    }
+
+    /**
+     * The user has been registered.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Models\User  $user
+     * @return mixed
+     */
+    protected function registered(Request $request, $user)
+    {
+        $user->assignRole('umum');
+        if ($user->hasRole('admin')) {
+            return redirect()->route('home');
+        }
+
+        return redirect()->route('umum');
     }
 }

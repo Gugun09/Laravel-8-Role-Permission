@@ -15,6 +15,11 @@
                     @endif
 
                     {{ __('You are logged in!') }}
+                    @role('admin')
+                    <p>{{ auth()->user()->name }}</p>
+                    @else
+                    <p>{{ auth()->user()->name }}</p>
+                    @endrole
                 </div>
             </div>
         </div>
